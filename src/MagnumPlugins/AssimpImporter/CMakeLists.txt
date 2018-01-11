@@ -54,7 +54,6 @@ target_compile_definitions(AssimpImporterObjects PRIVATE "AssimpImporterObjects_
 if(NOT BUILD_STATIC OR BUILD_STATIC_PIC)
     set_target_properties(AssimpImporterObjects PROPERTIES POSITION_INDEPENDENT_CODE ON)
 endif()
-set_target_properties(AssimpImporterObjects PROPERTIES FOLDER "MagnumPlugins/AnyImageImporter")
 
 # AssimpImporter plugin
 add_plugin(AssimpImporter
@@ -68,9 +67,6 @@ if(BUILD_STATIC_PIC)
 endif()
 target_include_directories(AssimpImporter PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(AssimpImporter Magnum::Magnum Assimp::Assimp)
-if(CORRADE_TARGET_WINDOWS)
-    target_link_libraries(AssimpImporter AnyImageImporter)
-endif()
 
 install(FILES ${AssimpImporter_HEADERS} DESTINATION ${MAGNUM_PLUGINS_INCLUDE_INSTALL_DIR}/AssimpImporter)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/configure.h DESTINATION ${MAGNUM_PLUGINS_INCLUDE_INSTALL_DIR}/AssimpImporter)
@@ -88,7 +84,6 @@ if(BUILD_TESTS)
             ${AssimpImporter_HEADERS}
             ${AssimpImporter_PRIVATE_HEADERS})
         target_compile_definitions(MagnumAssimpImporterTestLib PRIVATE
-            "MAGNUM_ANYIMAGEIMPORTER_BUILD_STATIC"
             "MAGNUM_ASSIMPIMPORTER_BUILD_STATIC")
     else()
         add_library(MagnumAssimpImporterTestLib STATIC
@@ -96,10 +91,8 @@ if(BUILD_TESTS)
             ${PROJECT_SOURCE_DIR}/src/dummy.cpp) # XCode workaround, see file comment for details
     endif()
     target_include_directories(MagnumAssimpImporterTestLib PUBLIC ${PROJECT_SOURCE_DIR}/src)
-    set_target_properties(MagnumAssimpImporterTestLib PROPERTIES FOLDER "MagnumPlugins/AnyImageImporter")
     target_link_libraries(MagnumAssimpImporterTestLib
         Magnum::Magnum
-        MagnumAnyImageImporterTestLib
         Assimp::Assimp)
 
     add_subdirectory(Test)

@@ -46,8 +46,6 @@
 #include <Magnum/Trade/SceneData.h>
 #include <Magnum/Trade/TextureData.h>
 
-#include <MagnumPlugins/AnyImageImporter/AnyImageImporter.h>
-
 #include <assimp/postprocess.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -510,11 +508,7 @@ Containers::Optional<ImageData2D> AssimpImporter::doImage2D(const UnsignedInt id
         }
 
     /* Load external texture */
-    } else {
-        AnyImageImporter importer{*manager()};
-        importer.openFile(Utility::Directory::join(_f->_filePath, path));
-        return importer.image2D(0);
-    }
+    } 
 }
 
 const void* AssimpImporter::doImporterState() const {
